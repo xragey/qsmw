@@ -1,0 +1,9 @@
+# Binaries
+*.bin
+*.exe
+*.sfc
+*.smc
+
+# Emulator garbage
+*.srm
+*.sym
