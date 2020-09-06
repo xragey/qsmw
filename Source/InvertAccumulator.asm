@@ -12,8 +12,8 @@
 incsrc "Macro/Free.asm"
 
 ; remove subroutines
-%Free($01804A, 4)
-%Free($01CCEC, 4)
+%Free($01804A, $01804D)
+%Free($01CCEC, $01CCEF)
 
 ; inline the routines
 org $0197DA : eor #$FF : inc a

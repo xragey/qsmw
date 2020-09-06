@@ -4,9 +4,9 @@
 ;
 ;-------------------------------------------------------------------------------
 
-macro Free(address, count)
+macro Free(addressStart, addressEnd)
 	pushpc
-	org <address>
-	rep <count> : db $FF
+	org <addressStart>
+	rep (<addressEnd>)-(<addressStart>) : db $FF
 	pullpc
 endmacro
