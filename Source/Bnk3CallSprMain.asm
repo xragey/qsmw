@@ -7,7 +7,7 @@
 ; the tail end of the chain. This rewrites the routine to use a jump table for
 ; most of these sprites, saving both cycles and bytes in rom.
 ;
-; Freed ROM: $03A19D (188 bytes)
+; Freed ROM: $03A19A (191 bytes)
 ; Taken ROM: none
 ; Freed RAM: none
 ; Taken RAM: none
@@ -16,6 +16,9 @@
 
 incsrc "Common/Header.asm"
 incsrc "Macro/Free.asm"
+
+org $03A263
+    RTS : NOP	; Remove plb : rtl from Bowser's code to prevent crash
 
 org $03A118
 Bnk3CallSprMain:
@@ -30,18 +33,17 @@ Bnk3CallSprMain:
 	sbc #$A0
 	pea .Return-1
 	asl
-	tax
-	lda .Pointers+1,x
+	tay
+	lda .Pointers+1,y
 	pha
-	lda .Pointers,x
+	lda .Pointers,y
 	pha
-	ldx $15E9|!addr
 	rts
 
 .Pointers
-	dw $A259 ; A0 - Bowser
-	dw $B163 ; A1 - Bowling ball
-	dw $B2A9 ; A2 - Mechakoopa
+	dw $A259-1 ; A0 - Bowser
+	dw $B163-1 ; A1 - Bowling ball
+	dw $B2A9-1 ; A2 - Mechakoopa
 
 ; Utilize otherwise unused pointer table space (A3-A7)
 .HandleLowIds
@@ -65,7 +67,7 @@ Bnk3CallSprMain:
 	dw $9065-1 ; AE - Fishin' Boo
 	dw $0000   ; AF
 	dw $8F7A-1 ; B0 - Boo stream
-	dw $8492-1 ; B1 - Snake block
+	dw $9284-1 ; B1 - Snake block
 	dw $9214-1 ; B2 - Falling spike
 	dw $8EEC-1 ; B3 - Statue fireball
 	dw $0000   ; B4
@@ -109,5 +111,4 @@ Bnk3CallSprMain:
 	jsr $AC97
 	plb
 	rtl
-
-%Free($03A19D, $03A258)
+%Free($03A19A, $03A258)
